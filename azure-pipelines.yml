@@ -4,10 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/php
 
 pool:
-  vmImage: 'Ubuntu 16.04'
+  vmImage: 'windows-latest'
 
 variables:
-  phpVersion: 7.2
+  phpVersion: 7.3
 
 steps:
 - script: |
@@ -21,3 +21,12 @@ steps:
 
 - script: composer install --no-interaction --prefer-dist
   displayName: 'composer install'
+
+- script: phpunit
+  displayName: 'Run tests with phpunit'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(system.defaultWorkingDirectory)'
+    includeRootFolder: false
+- task: PublishBuildArtifacts@1
